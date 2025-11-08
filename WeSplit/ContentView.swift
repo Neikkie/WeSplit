@@ -30,7 +30,7 @@ struct ContentView: View {
                         .keyboardType(.decimalPad) // modifier that changes the keyboard type
                     Picker("Number of people", selection: $numberOfPeople) {
                         ForEach(2..<100) {
-                            Text("\($0) people") // allow the user to select the amount of people and opens on a different screen 
+                            Text("\($0) people") // allow the user to select the amount of people and opens on a different screen
                         }
                     }
                 }
@@ -39,10 +39,11 @@ struct ContentView: View {
                     Picker("Tip Percentage", selection: $tipPercentage) {
                         // allows the user to select their tip amount
                         ForEach(tipPercentages, id: \.self) {
-                            // loop that
+                            // loop that shows the tip percent 
                             Text($0, format: .percent)
                         }
                     }
+                    .pickerStyle(.segmented) // shows the tip horizantal and formitted
                 }
                     .pickerStyle(.navigationLink) // moves the user to a new screen to make their selection
                     Text(checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
