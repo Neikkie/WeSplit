@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var checkAmount = 0.0
     @State private var numberOfPeople = 2
     @State private var tipPercentage = 20
-    let tipPercentages = [10, 15, 20, 25, 0] // allow users to select a fifferent tip amount
+    let tipPercentages = [10, 15, 20, 25, 0] // an array that allow users to select a different tip amount
     var body: some View {
         
         Button("Tap Count: \(tapCount)") {
@@ -30,7 +30,7 @@ struct ContentView: View {
                         .keyboardType(.decimalPad) // modifier that changes the keyboard type
                     Picker("Number of people", selection: $numberOfPeople) {
                         ForEach(2..<100) {
-                            Text("\($0) people") // allow the user to select the amount of people
+                            Text("\($0) people") // allow the user to select the amount of people and opens on a different screen 
                         }
                     }
                 }
@@ -39,14 +39,14 @@ struct ContentView: View {
                     Picker("Tip Percentage", selection: $tipPercentage) {
                         // allows the user to select their tip amount
                         ForEach(tipPercentages, id: \.self) {
-                            // loop that 
+                            // loop that
                             Text($0, format: .percent)
                         }
                     }
                 }
                     .pickerStyle(.navigationLink) // moves the user to a new screen to make their selection
-                    Text(checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD")) // shows below the text field
-                }
+                    Text(checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                } // shows below the text field also calculate and calculate the currency based on the location
             }
             .navigationTitle("")
     }
