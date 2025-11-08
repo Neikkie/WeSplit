@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @FocusState private var amountIsFocused: Bool
     @State private var checkAmount = 0.0
     @State private var numberOfPeople = 2
     @State private var tipPercentage = 20
@@ -35,6 +36,7 @@ struct ContentView: View {
                     TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD")) // $ means two way binding that is used to update the property with changes in the text field
                     // editable text box
                         .keyboardType(.decimalPad) // modifier that changes the keyboard type
+                        .focused($amountIsFocused)
                     Picker("Number of people", selection: $numberOfPeople) {
                         ForEach(2..<100) {
                             Text("\($0) people") // allow the user to select the amount of people and opens on a different screen
@@ -56,6 +58,15 @@ struct ContentView: View {
                     Text(totalPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                 } // shows below the text field also calculate and calculate the currency based on the location
             .navigationTitle("WeSplit")
+            .toolbar {
+                // modifier that specify the toolbar
+                if amountIsFocused {
+                    // only show the button when the textfield is active
+                    Button("Done") {
+                        amountIsFocused = false
+                        }
+                    }
+                }
             }
             
     }
