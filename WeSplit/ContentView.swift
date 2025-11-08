@@ -8,18 +8,25 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var tapCount = 0
-    // without @State (property wrapper and values can be stored and modified) the button is immutable because its is built on a struct that cannot be change values freely
-   @State private var name = ""
+    
     @State private var checkAmount = 0.0
     @State private var numberOfPeople = 2
     @State private var tipPercentage = 20
+    
     let tipPercentages = [10, 15, 20, 25, 0] // an array that allow users to select a different tip amount
-    var body: some View {
+    
+        var totalPerPerson: Double {
+            // calculate the total per person
+        let peopleCount = Double(numberOfPeople + 2)
+        let tipSelection = Double(tipPercentage)
+        let tipValue = checkAmount / 100 * tipSelection
+        let grandTotal = checkAmount + tipValue
+        let amountPerPerson = grandTotal / peopleCount
         
-        Button("Tap Count: \(tapCount)") {
-            self.tapCount += 1
-        }
+        return amountPerPerson
+    } // this sends back the code to 0 and calculate the total per person
+    
+    var body: some View {
         NavigationStack {
             // adds a navigation bar
             Form {
@@ -34,7 +41,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                Section {
+                Section("How much do you want to tip?") {
                     // adding segmentaded control for tips
                     Picker("Tip Percentage", selection: $tipPercentage) {
                         // allows the user to select their tip amount
@@ -46,10 +53,11 @@ struct ContentView: View {
                     .pickerStyle(.segmented) // shows the tip horizantal and formitted
                 }
                     .pickerStyle(.navigationLink) // moves the user to a new screen to make their selection
-                    Text(checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    Text(totalPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                 } // shows below the text field also calculate and calculate the currency based on the location
+            .navigationTitle("WeSplit")
             }
-            .navigationTitle("")
+            
     }
 }
 
